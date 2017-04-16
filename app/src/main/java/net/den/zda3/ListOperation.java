@@ -93,6 +93,7 @@ public class ListOperation extends FragmentActivity implements LoaderCallbacks<C
 	//---------------------------
 	//     ОБРАБОТЧИКИ НАЖАТИЙ
 	//---------------------------
+	тот рот
 	
 	
 	
