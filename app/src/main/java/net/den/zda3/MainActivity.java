@@ -1,4 +1,4 @@
-package com.den.zda;
+package net.den.zda3;
 
 
 import android.app.*;

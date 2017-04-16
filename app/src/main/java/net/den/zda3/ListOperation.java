@@ -1,22 +1,20 @@
-package com.den.zda;
+package net.den.zda3;
 
 
 import android.app.*;
 import android.content.*;
+import android.database.*;
 import android.database.sqlite.*;
 import android.os.*;
+import android.support.v4.app.*;
+import android.support.v4.content.*;
+import android.util.*;
 import android.widget.*;
 import java.util.*;
-import android.view.View.*;
-import android.view.*;
-import android.util.*;
-import android.content.ContentValues;
+import java.util.concurrent.TimeUnit;
+
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteDatabase.CursorFactory;
-import android.database.sqlite.SQLiteOpenHelper;
-import java.util.concurrent.TimeUnit;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.LoaderManager.LoaderCallbacks;
@@ -31,7 +29,10 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
 
 
-public class ListOperation extends FragmentActivity implements LoaderCallbacks<Cursor>
+import android.support.v4.content.Loader;
+
+public class ListOperation   extends FragmentActivity implements LoaderCallbacks<Cursor> 
+	
 {
 
 	@Override
