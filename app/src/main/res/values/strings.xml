@@ -3,5 +3,8 @@
 
     <string name="app_name">Zda5</string>
     <string name="hello_world">Hello world!</string>
+	<string name="add_record">Добавить запись</string>
+	<string name="delete_record">Удалить запись</string>
+	
 
 </resources>

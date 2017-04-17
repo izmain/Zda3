@@ -1,15 +1,7 @@
 package net.den.zda3;
 
 
-import android.app.*;
-import android.content.*;
-import android.database.*;
-import android.database.sqlite.*;
-import android.os.*;
-import android.support.v4.app.*;
-import android.support.v4.content.*;
-import android.util.*;
-import android.widget.*;
+
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -30,160 +22,134 @@ import android.widget.ListView;
 
 
 import android.support.v4.content.Loader;
+import android.widget.*;
+import android.view.View.*;
+import android.content.*;
 
 public class ListOperation   extends FragmentActivity implements LoaderCallbacks<Cursor> 
 	
 {
 
-	@Override
-	public Loader<Cursor> onCreateLoader(int p1, Bundle p2)
-	{
-		// TODO: Implement this method
-		return null;
-	}
-
-	@Override
-	public void onLoadFinished(Loader<Cursor> p1, Cursor p2)
-	{
-		// TODO: Implement this method
-	}
-
-	@Override
-	public void onLoaderReset(Loader<Cursor> p1)
-	{
-		// TODO: Implement this method
-	}
 	
 
 	
 	
-	EditText etOfList;
-	ListView lvTime;
-	Button btAdd,btDel,btChang,btSave;
-	
-	DBhelper dbHelp;
-	
-	
-	ArrayList<String> timeList=new ArrayList<String> ();
-	private SharedPreferences itemTimeOfTask; //для записи временных параметров
-	
-	
-	@Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.listop);
-		etOfList=(EditText) findViewById(R.id.etOfList);
-		lvTime=(ListView) findViewById(R.id.lvTime);
-		initz();
-		// 
-	}
-
-	private void initz()
-	{
-		// TODO: Implement this method
-		itemTimeOfTask=getSharedPreferences("fileSetting" ,Activity.MODE_PRIVATE);
-		Intent intnTemp=getIntent();
-		etOfList.setText(intnTemp.getStringExtra("time"));
-		loadTimeSheets();
-		ArrayAdapter<String> timeAdapt= new ArrayAdapter<String>(this,R.layout.my_item,timeList);
-		lvTime.setAdapter(timeAdapt);
-		
-	}
-	
-	//---------------------------
-	//     ОБРАБОТЧИКИ НАЖАТИЙ
-	//---------------------------
-	
-	
-	
-	//-------------------------------
-	//         МОИ ФУНКЦИИ
-	//--------------------------------
-	   
-	//запись ключа в настройки по формату
-	public void saveKey(int nomer,String section, String val)
-	{
-		String key=section + String.valueOf(nomer);
-
-		itemTimeOfTask.edit().putString(key ,val).commit();
-	}
-
-	//чтение ключа по номеру
-	public String reedKey(int nomer, String section)
-	{
-		String key=section + String.valueOf(nomer);
-
-		return(itemTimeOfTask.getString(key,""));
-	}
-
-	//извлечение ячейки времени
-	private String reedTime(int k)
-	{	
-		int n=getSizeTimeSection();
-		if (k<=n){return(reedKey(k,"time" ));}
-		else{return("хуйня "+k+"-"+n);}	
-	}
-
-	//получение размера массива дат
-	private int getSizeTimeSection()
-	{
-		int n=0;
-		String sizeTimeSection = reedKey(0,"time");
-		if (!("".equals(sizeTimeSection))) 
-		{n=Integer.valueOf(sizeTimeSection);}
-		return n;
-	}
-
-	//загрузка массива дат
-	private void loadTimeSheets()
-	{
-		int n=getSizeTimeSection();
-		if (0==n) {return;}
-
-		timeList.clear();
-		for (int k=1; k<=n; k++)
-		{
-
-			timeList.add(reedKey(k, "time"));
-		}
-	}
-
-	//сохранение массива дат
-	private void saveTimeSheets()
-	{
-		int i=timeList.size();
-		for (int n=1; n<=i; n++) 
-		{
-			saveKey(n,"time",timeList.get(n));
-		}
-	}
+	//-------------------
 	
 	//-------------------------------
 	//         DEBAG
 	//--------------------------------
 	
-	public class DBhelper extends SQLiteOpenHelper
-	{
-		public DBhelper(Context context)
-		{
-			super (context, "taskDB", null, 1 );
+	
+
+	private static final int CM_DELETE_ID = 1;
+	ListView lvData;
+	Button btAdd;
+	EditText et;
+	
+	Intent intnt;
+	DB db;
+	SimpleCursorAdapter scAdapter;
+
+	/** Called when the activity is first created. */
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.listop);
+		et=(EditText) findViewById(R.id.etOfList);
+		intnt=getIntent();
+		et.setText(intnt.getStringExtra("time"));
+		btAdd=(Button) findViewById(R.id.bt_add);
+		btAdd.setOnClickListener(new OnClickListener(){
+
+				@Override
+				public void onClick(View v)
+				{onButtonClick(v);}});
+
+		// открываем подключение к БД
+		db = new DB(this);
+		db.open();
+
+		// формируем столбцы сопоставления
+		String[] from = new String[] { DB.COLUMN_IMG, DB.COLUMN_TXT };
+		int[] to = new int[] { R.id.ivImg, R.id.tvText };
+
+		// создаем адаптер и настраиваем список
+		scAdapter = new SimpleCursorAdapter(this, R.layout.my_item, null, from, to, 0);
+		lvData = (ListView) findViewById(R.id.lvData);
+		
+		if (lvData.equals(null)) {Toast.makeText(this,"hui",Toast.LENGTH_SHORT).show();}
+		if (scAdapter.equals(null)) {Toast.makeText(this,"hui",Toast.LENGTH_SHORT).show();}
+		lvData.setAdapter(scAdapter);
+
+		// добавляем контекстное меню к списку
+		registerForContextMenu(lvData);
+
+		// создаем лоадер для чтения данных
+		getSupportLoaderManager().initLoader(0, null, this);
+	}
+
+	// обработка нажатия кнопки
+	public void onButtonClick(View view) {
+		// добавляем запись
+		db.addRec(et.getText().toString(), R.drawable.ic_launcher);
+		// получаем новый курсор с данными
+		getSupportLoaderManager().getLoader(0).forceLoad();
+	}
+
+	public void onCreateContextMenu(ContextMenu menu, View v,
+									ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, v, menuInfo);
+		menu.add(0, CM_DELETE_ID, 0, R.string.delete_record);
+	}
+
+	public boolean onContextItemSelected(MenuItem item) {
+		if (item.getItemId() == CM_DELETE_ID) {
+			// получаем из пункта контекстного меню данные по пункту списка
+			AdapterContextMenuInfo acmi = (AdapterContextMenuInfo) item
+				.getMenuInfo();
+			// извлекаем id записи и удаляем соответствующую запись в БД
+			db.delRec(acmi.id);
+			// получаем новый курсор с данными
+			getSupportLoaderManager().getLoader(0).forceLoad();
+			return true;
+		}
+		return super.onContextItemSelected(item);
+	}
+
+	protected void onDestroy() {
+		super.onDestroy();
+		// закрываем подключение при выходе
+		db.close();
+	}
+
+	@Override
+	public Loader<Cursor> onCreateLoader(int id, Bundle bndl) {
+		return new MyCursorLoader(this, db);
+	}
+
+	@Override
+	public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+		scAdapter.swapCursor(cursor);
+	}
+
+	@Override
+	public void onLoaderReset(Loader<Cursor> loader) {
+	}
+
+	static class MyCursorLoader extends CursorLoader {
+
+		DB db;
+
+		public MyCursorLoader(Context context, DB db) {
+			super(context);
+			this.db = db;
 		}
 
 		@Override
-		public void onCreate(SQLiteDatabase db)
-		{
-			//SQLiteDatabase db=DBhelper.getWritableDatabase();
-			Log.d("mzda","creat db");
-			db.execSQL("");
+		public Cursor loadInBackground() {
+			Cursor cursor = db.getAllData();
 			
-			// TODO: Implement this method
-		}
-
-		@Override
-		public void onUpgrade(SQLiteDatabase p1, int p2, int p3)
-		{
-			// TODO: Implement this method
+			return cursor;
 		}
 
 	}
