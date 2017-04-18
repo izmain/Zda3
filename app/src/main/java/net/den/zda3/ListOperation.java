@@ -77,8 +77,7 @@ public class ListOperation   extends FragmentActivity implements LoaderCallbacks
 		scAdapter = new SimpleCursorAdapter(this, R.layout.my_item, null, from, to, 0);
 		lvData = (ListView) findViewById(R.id.lvData);
 		
-		if (lvData.equals(null)) {Toast.makeText(this,"hui",Toast.LENGTH_SHORT).show();}
-		if (scAdapter.equals(null)) {Toast.makeText(this,"hui",Toast.LENGTH_SHORT).show();}
+
 		lvData.setAdapter(scAdapter);
 
 		// добавляем контекстное меню к списку
