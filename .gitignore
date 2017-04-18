@@ -7,3 +7,13 @@
 /build
 /captures
 .externalNativeBuild
+gradle.properties
+.idea
+.navigation
+/captures
+*.iml
+gradlew
+gradlew.bat
+build.gradle
+libs/
+src/main/res/drawable/
