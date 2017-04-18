@@ -17,13 +17,14 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
 
 
+import android.support.v4.content.Loader;
 import android.widget.*;
 import android.view.View.*;
 import android.content.*;
 
 //-------------------
 
-public class ListOperation   extends FragmentActivity implements LoaderCallbacks<Cursor> 
+public class ListOperation   extends FragmentActivity implements LoaderCallbacks<Cursor>
 	
 {
 	private static final int CM_DELETE_ID = 1;
