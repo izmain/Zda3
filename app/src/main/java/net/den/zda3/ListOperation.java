@@ -1,10 +1,6 @@
 package net.den.zda3;
 
 
-
-import java.util.*;
-import java.util.concurrent.TimeUnit;
-
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -19,53 +15,52 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
-
-
-import android.support.v4.content.Loader;
 import android.widget.*;
 import android.view.View.*;
 import android.content.*;
 
+//-------------------
+
 public class ListOperation   extends FragmentActivity implements LoaderCallbacks<Cursor> 
 	
 {
-
-	
-
-	
-	
-	//-------------------
-	
-	//-------------------------------
-	//         DEBAG
-	//--------------------------------
-	
-	
-
 	private static final int CM_DELETE_ID = 1;
+	
 	ListView lvData;
 	Button btAdd;
 	EditText et;
 	
-	Intent intnt;
+	Intent intntEnter,intnEditor;
 	DB db;
 	SimpleCursorAdapter scAdapter;
 
-	/** Called when the activity is first created. */
+	/** onCreate **/
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.listop);
 		et=(EditText) findViewById(R.id.etOfList);
-		intnt=getIntent();
-		et.setText(intnt.getStringExtra("time"));
+
 		btAdd=(Button) findViewById(R.id.bt_add);
 		btAdd.setOnClickListener(new OnClickListener(){
-
 				@Override
 				public void onClick(View v)
 				{onButtonClick(v);}});
+		lvData = (ListView) findViewById(R.id.lvData);
+		lvData.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			    @Override
+			     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				    intnEditor= new Intent(getApplicationContext(),BaseEdit.class);
+                    intnEditor.putExtra("item", position);
+                    startActivity(intnEditor);
+			     }
+		       });
+		initz();
 
-		// открываем подключение к БД
+	}
+
+	private void initz() {
+		intntEnter =getIntent();
+		et.setText(intntEnter.getStringExtra("time"));	
 		db = new DB(this);
 		db.open();
 
@@ -75,32 +70,41 @@ public class ListOperation   extends FragmentActivity implements LoaderCallbacks
 
 		// создаем адаптер и настраиваем список
 		scAdapter = new SimpleCursorAdapter(this, R.layout.my_item, null, from, to, 0);
-		lvData = (ListView) findViewById(R.id.lvData);
-		
-
-		lvData.setAdapter(scAdapter);
-
-		// добавляем контекстное меню к списку
-		registerForContextMenu(lvData);
-
-		// создаем лоадер для чтения данных
+		lvData.setAdapter(scAdapter);	
+		registerForContextMenu(lvData);	
 		getSupportLoaderManager().initLoader(0, null, this);
 	}
 
-	// обработка нажатия кнопки
-	public void onButtonClick(View view) {
-		// добавляем запись
-		db.addRec(et.getText().toString(), R.drawable.ic_launcher);
-		// получаем новый курсор с данными
-		getSupportLoaderManager().getLoader(0).forceLoad();
+	protected void onDestroy() {
+		super.onDestroy();
+		db.close();
 	}
 
+	//-------------------------------
+	//         НАЖАТИЯ
+	//--------------------------------
+
+	// нажатия кнопки
+	public void onButtonClick(View v) {
+		switch (v.getId() ){
+			case R.id.bt_add:{
+		
+		
+		      db.addRec(et.getText().toString(), R.drawable.ic_launcher);
+		      // получаем новый курсор с данными
+		      getSupportLoaderManager().getLoader(0).forceLoad();
+		    }break;
+		}
+	}
+	
+    // долгий тап
 	public void onCreateContextMenu(ContextMenu menu, View v,
 									ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
 		menu.add(0, CM_DELETE_ID, 0, R.string.delete_record);
 	}
-
+	
+    // контекст
 	public boolean onContextItemSelected(MenuItem item) {
 		if (item.getItemId() == CM_DELETE_ID) {
 			// получаем из пункта контекстного меню данные по пункту списка
@@ -115,11 +119,11 @@ public class ListOperation   extends FragmentActivity implements LoaderCallbacks
 		return super.onContextItemSelected(item);
 	}
 
-	protected void onDestroy() {
-		super.onDestroy();
-		// закрываем подключение при выходе
-		db.close();
-	}
+
+
+	//-------------------------------
+	//         DEBAG
+	//--------------------------------
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle bndl) {
