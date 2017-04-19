@@ -1,10 +1,6 @@
 package net.den.zda3;
 
 
-
-import java.util.*;
-import java.util.concurrent.TimeUnit;
-
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -21,33 +17,21 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
 
 
-import android.support.v4.content.Loader;
 import android.widget.*;
 import android.view.View.*;
 import android.content.*;
 
+//-------------------
+
 public class ListOperation   extends FragmentActivity implements LoaderCallbacks<Cursor> 
 	
 {
-
-	
-
-	
-	
-	//-------------------
-	
-	//-------------------------------
-	//         DEBAG
-	//--------------------------------
-	
-	
-
 	private static final int CM_DELETE_ID = 1;
 	ListView lvData;
 	Button btAdd;
 	EditText et;
 	
-	Intent intnt;
+	Intent intntEnter,intntExit;
 	DB db;
 	SimpleCursorAdapter scAdapter;
 
@@ -56,15 +40,29 @@ public class ListOperation   extends FragmentActivity implements LoaderCallbacks
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.listop);
 		et=(EditText) findViewById(R.id.etOfList);
-		intnt=getIntent();
-		et.setText(intnt.getStringExtra("time"));
+
 		btAdd=(Button) findViewById(R.id.bt_add);
 		btAdd.setOnClickListener(new OnClickListener(){
 
 				@Override
 				public void onClick(View v)
 				{onButtonClick(v);}});
+		lvData = (ListView) findViewById(R.id.lvData);
+		lvData.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				intntExit= new Intent(getApplicationContext(),BaseEdit.class);
+                intntExit.putExtra("item", position);
+                startActivity(intntExit);
+			}
+		});
+		initz();
 
+	}
+
+	private void initz() {
+		intntEnter =getIntent();
+		et.setText(intntEnter.getStringExtra("time"));
 		// открываем подключение к БД
 		db = new DB(this);
 		db.open();
@@ -75,10 +73,8 @@ public class ListOperation   extends FragmentActivity implements LoaderCallbacks
 
 		// создаем адаптер и настраиваем список
 		scAdapter = new SimpleCursorAdapter(this, R.layout.my_item, null, from, to, 0);
-		lvData = (ListView) findViewById(R.id.lvData);
-		
-		if (lvData.equals(null)) {Toast.makeText(this,"hui",Toast.LENGTH_SHORT).show();}
-		if (scAdapter.equals(null)) {Toast.makeText(this,"hui",Toast.LENGTH_SHORT).show();}
+
+
 		lvData.setAdapter(scAdapter);
 
 		// добавляем контекстное меню к списку
@@ -87,6 +83,16 @@ public class ListOperation   extends FragmentActivity implements LoaderCallbacks
 		// создаем лоадер для чтения данных
 		getSupportLoaderManager().initLoader(0, null, this);
 	}
+
+	protected void onDestroy() {
+		super.onDestroy();
+		// закрываем подключение при выходе
+		db.close();
+	}
+
+	//-------------------------------
+	//         НАЖАТИЯ
+	//--------------------------------
 
 	// обработка нажатия кнопки
 	public void onButtonClick(View view) {
@@ -116,11 +122,11 @@ public class ListOperation   extends FragmentActivity implements LoaderCallbacks
 		return super.onContextItemSelected(item);
 	}
 
-	protected void onDestroy() {
-		super.onDestroy();
-		// закрываем подключение при выходе
-		db.close();
-	}
+
+
+	//-------------------------------
+	//         DEBAG
+	//--------------------------------
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle bndl) {
