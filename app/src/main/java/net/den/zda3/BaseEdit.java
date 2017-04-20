@@ -45,7 +45,6 @@ public class BaseEdit extends Activity {
 				{
 					intnTimePic=new Intent(getApplicationContext(), MainActivity.class);
 					startActivityForResult(intnTimePic,RESULT_TIME);
-					
 				}
 				
 			
