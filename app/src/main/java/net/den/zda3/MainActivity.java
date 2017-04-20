@@ -151,7 +151,7 @@ public class MainActivity extends Activity
 	
 	private void showList()
 	{
-		// TODO: Implement this method
+
 		
 		intnList.putExtra("time", getDataToFields());
 		addDbg( intnList.getStringExtra("time"));

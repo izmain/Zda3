@@ -19,6 +19,9 @@ public class BaseEdit extends Activity {
 	
 	Intent intnInit,intnTimePic;
 
+    // TODO: меню создания нового задания
+    // TODO: парсинг даты
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
