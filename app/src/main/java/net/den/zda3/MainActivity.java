@@ -22,6 +22,7 @@ public class MainActivity extends Activity
 	TextView debugConsol;
 	
 	Intent intnList;
+
 	
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -54,7 +55,7 @@ public class MainActivity extends Activity
 	public void sendTime(View v){
 		intnList.putExtra("time",getDataToFields());
 		setResult(RESULT_OK, intnList);
-		Toast.makeText(this,"time",Toast.LENGTH_SHORT);
+		Toast.makeText(this,"time",Toast.LENGTH_SHORT).show();
 		finish();
 	}
 	//нажатие получение ячейки времени
@@ -108,7 +109,7 @@ public class MainActivity extends Activity
 	public String addFieldToData (EditText et, String s){
 		DecimalFormat df=new DecimalFormat("00");
 		df.setMaximumIntegerDigits(2);
-		s += df.format(Integer.parseInt("00"+et.getText().toString())).toString();
+		s += df.format(Integer.parseInt("00"+et.getText().toString()));
 		return s;
 	}
 	
@@ -142,9 +143,9 @@ public class MainActivity extends Activity
 		if (myDataInt==sisDataInt) 
 		{return checkStatus;}
 		if  (myDataInt<sisDataInt) {
-			return checkStatus="after";
-		}else {return checkStatus="befor";}	
-		
+			 checkStatus="after";
+		}else { checkStatus="befor";}
+		return checkStatus;
 	}
 	
 	
