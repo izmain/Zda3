@@ -24,19 +24,20 @@ import android.content.*;
 
 //-------------------
 
-public class ListOperation   extends FragmentActivity implements LoaderCallbacks<Cursor>
+public class ListOperation   extends FragmentActivity implements LoaderCallbacks<Cursor> 
 	
 {
 	private static final int CM_DELETE_ID = 1;
+
 	ListView lvData;
 	Button btAdd;
 	EditText et;
 	
-	Intent intntEnter,intntExit;
+	Intent intntEnter,intnEditor;
 	DB db;
 	SimpleCursorAdapter scAdapter;
 
-	/** Called when the activity is first created. */
+	/** onCreate **/
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.listop);
@@ -44,19 +45,18 @@ public class ListOperation   extends FragmentActivity implements LoaderCallbacks
 
 		btAdd=(Button) findViewById(R.id.bt_add);
 		btAdd.setOnClickListener(new OnClickListener(){
-
 				@Override
 				public void onClick(View v)
 				{onButtonClick(v);}});
 		lvData = (ListView) findViewById(R.id.lvData);
 		lvData.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				intntExit= new Intent(getApplicationContext(),BaseEdit.class);
-                intntExit.putExtra("item", position);
-                startActivity(intntExit);
-			}
-		});
+			    @Override
+			     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				    intnEditor= new Intent(getApplicationContext(),BaseEdit.class);
+                    intnEditor.putExtra("item", position);
+                    startActivity(intnEditor);
+			     }
+		       });
 		initz();
 
 	}
@@ -64,7 +64,6 @@ public class ListOperation   extends FragmentActivity implements LoaderCallbacks
 	private void initz() {
 		intntEnter =getIntent();
 		et.setText(intntEnter.getStringExtra("time"));
-		// открываем подключение к БД
 		db = new DB(this);
 		db.open();
 
@@ -74,20 +73,13 @@ public class ListOperation   extends FragmentActivity implements LoaderCallbacks
 
 		// создаем адаптер и настраиваем список
 		scAdapter = new SimpleCursorAdapter(this, R.layout.my_item, null, from, to, 0);
-
-
 		lvData.setAdapter(scAdapter);
-
-		// добавляем контекстное меню к списку
 		registerForContextMenu(lvData);
-
-		// создаем лоадер для чтения данных
 		getSupportLoaderManager().initLoader(0, null, this);
 	}
 
 	protected void onDestroy() {
 		super.onDestroy();
-		// закрываем подключение при выходе
 		db.close();
 	}
 
@@ -95,20 +87,27 @@ public class ListOperation   extends FragmentActivity implements LoaderCallbacks
 	//         НАЖАТИЯ
 	//--------------------------------
 
-	// обработка нажатия кнопки
-	public void onButtonClick(View view) {
-		// добавляем запись
-		db.addRec(et.getText().toString(), R.drawable.ic_launcher);
-		// получаем новый курсор с данными
-		getSupportLoaderManager().getLoader(0).forceLoad();
+	// нажатия кнопки
+	public void onButtonClick(View v) {
+		switch (v.getId() ){
+			case R.id.bt_add:{
+
+
+		      db.addRec(et.getText().toString(), R.drawable.ic_launcher);
+		      // получаем новый курсор с данными
+		      getSupportLoaderManager().getLoader(0).forceLoad();
+		    }break;
+		}
 	}
 
+    // долгий тап
 	public void onCreateContextMenu(ContextMenu menu, View v,
 									ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
 		menu.add(0, CM_DELETE_ID, 0, R.string.delete_record);
 	}
 
+    // контекст
 	public boolean onContextItemSelected(MenuItem item) {
 		if (item.getItemId() == CM_DELETE_ID) {
 			// получаем из пункта контекстного меню данные по пункту списка

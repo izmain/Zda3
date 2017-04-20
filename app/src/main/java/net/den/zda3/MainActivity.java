@@ -51,7 +51,12 @@ public class MainActivity extends Activity
 	//     ОБРАБОТЧИКИ НАЖАТИЙ
 	//---------------------------
 	
-	
+	public void sendTime(View v){
+		intnList.putExtra("time",getDataToFields());
+		setResult(RESULT_OK, intnList);
+		Toast.makeText(this,"time",Toast.LENGTH_SHORT);
+		finish();
+	}
 	//нажатие получение ячейки времени
 	public void clcReed(View v)
 	{}
