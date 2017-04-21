@@ -21,6 +21,8 @@ public class BaseEdit extends Activity {
 
     // TODO: меню создания нового задания
     // TODO: парсинг даты
+    // TODO: переместить пусковое активити
+    // TODO: запуск кнопки редактора
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
