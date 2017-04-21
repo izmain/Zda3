@@ -17,7 +17,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ListView;
 
 
-import android.support.v4.content.Loader;
+
 import android.widget.*;
 import android.view.View.*;
 import android.content.*;
@@ -30,7 +30,7 @@ TODO:
 врубить редактор
 запуск редактора при создании нью таска
 парсинг временной строки
-подправить тему
+подправить темупобедить реквест
 
 
 
