@@ -51,9 +51,11 @@ public class DB {
 	}
 
 	// добавить запись в DB_TABLE
-	public void addRec(String txt, int img) {
+	public void addRec(String time, String name, String determin,  int img) {
 		ContentValues cv = new ContentValues();
-		cv.put(COLUMN_TXT, txt);
+		cv.put(COLUMN_TXT, time);
+		cv.put(COLUMN_TXT, name);
+		cv.put(COLUMN_TXT, determin);
 		cv.put(COLUMN_IMG, img);
 		mDB.insert(DB_TABLE, null, cv);
 	}
@@ -62,6 +64,17 @@ public class DB {
 	public void delRec(long id) {
 		mDB.delete(DB_TABLE, COLUMN_ID + " = " + id, null);
 	}
+
+	// edit record in DB
+	public void editRec(String time, String name, String determin,  int img, long id) {
+		ContentValues cv = new ContentValues();
+		cv.put(COLUMN_TXT, time);
+		cv.put(COLUMN_TXT, name);
+		cv.put(COLUMN_TXT, determin);
+		cv.put(COLUMN_IMG, img);
+		mDB.update(DB_TABLE, cv, COLUMN_ID + " = " + id, null);
+	}
+
 
 	// класс по созданию и управлению БД
 	private class DBHelper extends SQLiteOpenHelper {
@@ -77,11 +90,11 @@ public class DB {
 			db.execSQL(DB_CREATE);
 
 			ContentValues cv = new ContentValues();
-			for (int i = 1; i < 5; i++) {
-				cv.put(COLUMN_TXT, "sometext " + i);
+
+				cv.put(COLUMN_TXT, "add new task");
 				cv.put(COLUMN_IMG, R.drawable.ic_launcher);
 				db.insert(DB_TABLE, null, cv);
-			}
+
 		}
 
 		@Override

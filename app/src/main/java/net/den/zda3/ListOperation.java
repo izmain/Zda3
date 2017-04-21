@@ -1,7 +1,6 @@
 package net.den.zda3;
 
 
-import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -28,20 +27,23 @@ TODO:
 запуск редактора при создании нью таска
 парсинг временной строки
 подправить тему
+использовать прикосновения вместо клика
 
 --------------------------*/
 
-public class ListOperation   extends FragmentActivity implements LoaderCallbacks<Cursor> 
+
+public class ListOperation   extends FragmentActivity implements LoaderCallbacks<Cursor>
 	
 {
 	private static final int CM_DELETE_ID = 1;
 	private static final int RESUL_TASK = 2;
 
-	ListView lvData;
-	Button btAdd;
-	EditText et;
+	private ListView lvData;
+	private Button btAdd;
+	private EditText et;
 	
-	Intent intntEnter,intnEditor;
+	private Intent intntEnter;
+    private Intent intnEditor;
 	DB db;
 	SimpleCursorAdapter scAdapter;
 
@@ -55,13 +57,15 @@ public class ListOperation   extends FragmentActivity implements LoaderCallbacks
 		btAdd.setOnClickListener(new OnClickListener(){
 				@Override
 				public void onClick(View v)
-				{onButtonClick(v);}});
+				{onButtonClick(v);}});  //TODO : its is creasy
 		lvData = (ListView) findViewById(R.id.lvData);
 		lvData.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			    @Override
 			     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				    intnEditor= new Intent(getApplicationContext(),BaseEdit.class);
                     intnEditor.putExtra("item", position);
+					intnEditor.putExtra("id", id);
+					intnEditor.putExtra("target", "edit");
 					 
 					 startActivityForResult(intnEditor, RESUL_TASK);
 			     }
@@ -110,11 +114,13 @@ public class ListOperation   extends FragmentActivity implements LoaderCallbacks
 	public void onButtonClick(View v) {
 		switch (v.getId() ){
 			case R.id.bt_add:{
-
-
-		      db.addRec(et.getText().toString(), R.drawable.ic_launcher);
+				intnEditor= new Intent(getApplicationContext(),BaseEdit.class);
+				intnEditor.putExtra("target", "add");//ToDO add constantS
+		      //todo fix addrec
+				db.addRec(et.getText().toString(), R.drawable.ic_launcher);
 		      // получаем новый курсор с данными
-		      getSupportLoaderManager().getLoader(0).forceLoad();
+
+		      //todo ---- getSupportLoaderManager().getLoader(0).forceLoad();
 		    }break;
 		}
 	}

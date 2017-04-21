@@ -9,7 +9,7 @@ import android.widget.*;
 import java.text.*;
 import java.util.*;
 
-public class MainActivity extends Activity 
+public class TimPic extends Activity
 
 	
 
@@ -28,7 +28,7 @@ public class MainActivity extends Activity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        setContentView(R.layout.time_pic);
 		// доступ к полям
 		 editYear = (EditText) findViewById(R.id.mainEditYear);
 		 editMonth = (EditText) findViewById(R.id.mainEditMonth);
