@@ -22,12 +22,25 @@ import android.widget.*;
 import android.view.View.*;
 import android.content.*;
 
-//-------------------
+/*-------------------
+
+TODO:
+ознакомится с гуидлайном названия переменных
+переименовать мэйнактив
+врубить редактор
+запуск редактора при создании нью таска
+парсинг временной строки
+подправить тему
+
+
+
+--------------------------*/
 
 public class ListOperation   extends FragmentActivity implements LoaderCallbacks<Cursor> 
 	
 {
 	private static final int CM_DELETE_ID = 1;
+	private static final int RESUL_TASK = 2;
 
 	ListView lvData;
 	Button btAdd;
@@ -54,7 +67,8 @@ public class ListOperation   extends FragmentActivity implements LoaderCallbacks
 			     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				    intnEditor= new Intent(getApplicationContext(),BaseEdit.class);
                     intnEditor.putExtra("item", position);
-                    startActivity(intnEditor);
+					 
+					 startActivityForResult(intnEditor, RESUL_TASK);
 			     }
 		       });
 		initz();
@@ -82,7 +96,17 @@ public class ListOperation   extends FragmentActivity implements LoaderCallbacks
 		super.onDestroy();
 		db.close();
 	}
-
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data)
+	{
+		switch (requestCode) {
+			case RESUL_TASK:
+				int numTask=data.getIntExtra("number task",-1);
+				String nameTask=(data.getStringExtra("name task"));
+				String terminTask=(data.getStringExtra("determinate"));
+		}
+		super.onActivityResult(requestCode, resultCode, data);
+	}
 	//-------------------------------
 	//         НАЖАТИЯ
 	//--------------------------------

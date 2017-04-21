@@ -61,11 +61,20 @@
 	</LinearLayout>
 
 	<EditText
+		android:layout_height="wrap_content"
+		android:layout_width="match_parent"
+		android:ems="10"
+		android:hint="название задачи"
+		android:id="@+id/et_name_task"/>
+
+	<EditText
 		android:layout_height="match_parent"
 		android:inputType="textMultiLine"
 		android:layout_width="match_parent"
 		android:ems="10"
-		android:hint="описание задачи"/>
+		android:hint="описание задачи"
+		android:id="@+id/et_determinate"/>
+	
 
 </LinearLayout>
 

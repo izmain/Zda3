@@ -15,7 +15,7 @@ public class BaseEdit extends Activity {
 	
 	TextView tvInfo,tvData,tvMinHor;
 	Button btTimePic;
-	EditText etTermin;
+	EditText etTermin,etNameTask;
 	
 	Intent intnInit,intnTimePic;
 
@@ -27,7 +27,8 @@ public class BaseEdit extends Activity {
 		btTimePic=(Button) findViewById(R.id.bt_time_pick);
 		tvData=(TextView) findViewById(R.id.tv_date);
 		tvMinHor=(TextView) findViewById(R.id.tv_min_hor);
-			
+		etNameTask=(EditText) findViewById(R.id.et_name_task);
+		etTermin=(EditText) findViewById(R.id.et_determinate);
 		initz();
 	}
 
