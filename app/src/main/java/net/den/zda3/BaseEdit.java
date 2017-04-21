@@ -19,6 +19,11 @@ public class BaseEdit extends Activity {
 	
 	Intent intnInit,intnTimePic;
 
+    // TODO: меню создания нового задания
+    // TODO: парсинг даты
+    // TODO: переместить пусковое активити
+    // TODO: запуск кнопки редактора
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +51,6 @@ public class BaseEdit extends Activity {
 				{
 					intnTimePic=new Intent(getApplicationContext(), MainActivity.class);
 					startActivityForResult(intnTimePic,RESULT_TIME);
-					
 				}
 				
 			
