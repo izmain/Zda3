@@ -19,21 +19,21 @@
 			android:layout_weight="1"
 			android:gravity="center|center_vertical"
 			android:text="Text"
-			android:textAlignment="center" />
+			android:textAlignment="center"/>
 
 		<ImageButton
 			android:id="@+id/bt_del"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_weight="1"
-			android:src="@android:drawable/btn_dialog" />
+			android:src="@android:drawable/btn_dialog"/>
 
 		<ImageButton
-			android:id="@+id/imageButton"
+			android:id="@+id/bt_add"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:elevation="1dp"
-			android:src="@android:drawable/ic_input_add" />
+			android:src="@android:drawable/ic_input_add"/>
 
 	</LinearLayout>
 
@@ -83,7 +83,6 @@
 		android:ems="10"
 		android:hint="описание задачи"
 		android:id="@+id/et_determinate"/>
-	
 
 </LinearLayout>
 

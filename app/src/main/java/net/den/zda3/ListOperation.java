@@ -21,13 +21,10 @@ import android.content.*;
 /*-------------------
 
 TODO:
-ознакомится с гуидлайном названия переменных
-переименовать мэйнактив
-врубить редактор
-запуск редактора при создании нью таска
 парсинг временной строки
 подправить тему
 использовать прикосновения вместо клика
+нужно ли возвращать интент из редактора
 
 --------------------------*/
 
@@ -81,7 +78,7 @@ public class ListOperation   extends FragmentActivity implements LoaderCallbacks
 		db.open();
 
 		// формируем столбцы сопоставления
-		String[] from = new String[] { DB.COLUMN_IMG, DB.COLUMN_TXT };
+		String[] from = new String[] { DB.COLUMN_IMG, DB.COLUMN_NAM };
 		int[] to = new int[] { R.id.ivImg, R.id.tvText };
 
 		// создаем адаптер и настраиваем список
@@ -100,12 +97,30 @@ public class ListOperation   extends FragmentActivity implements LoaderCallbacks
 	{
 		switch (requestCode) {
 			case RESUL_TASK:
-				int numTask=data.getIntExtra("number task",-1);
-				String nameTask=(data.getStringExtra("name task"));
-				String terminTask=(data.getStringExtra("determinate"));
+				String targ=data.getStringExtra("action");
+				switch (targ){
+					case "edit":{
+						db.editRec(data.getStringExtra("time"),
+									data.getStringExtra("name"),
+									data.getStringExtra("determin"),
+									R.drawable.ic_launcher,
+									data.getLongExtra("id",-1));
+					}break;
+					case "add":{
+						db.addRec(data.getStringExtra("time"),
+						          data.getStringExtra("name"),
+								  data.getStringExtra("determin"),
+								 R.drawable.ic_launcher);
+					}break;
+					case "del":
+						Long idI=data.getLongExtra("id",-1);
+						db.delRec(idI);
+					}break;	
+				}
+		getSupportLoaderManager().getLoader(0).forceLoad();
+		  // super.onActivityResult(requestCode, resultCode, data);
 		}
-		super.onActivityResult(requestCode, resultCode, data);
-	}
+		
 	//-------------------------------
 	//         НАЖАТИЯ
 	//--------------------------------
@@ -116,8 +131,9 @@ public class ListOperation   extends FragmentActivity implements LoaderCallbacks
 			case R.id.bt_add:{
 				intnEditor= new Intent(getApplicationContext(),BaseEdit.class);
 				intnEditor.putExtra("target", "add");//ToDO add constantS
-		      //todo fix addrec
-				db.addRec(et.getText().toString(), R.drawable.ic_launcher);
+				startActivityForResult(intnEditor, RESUL_TASK);
+			  //todo fix addrec
+				//db.addRec(et.getText().toString(), R.drawable.ic_launcher);
 		      // получаем новый курсор с данными
 
 		      //todo ---- getSupportLoaderManager().getLoader(0).forceLoad();
@@ -182,10 +198,6 @@ public class ListOperation   extends FragmentActivity implements LoaderCallbacks
 			
 			return cursor;
 		}
-
-	}
-
-	
-	
+	}	
 }
 

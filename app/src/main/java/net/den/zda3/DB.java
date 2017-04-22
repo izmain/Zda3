@@ -15,13 +15,17 @@ public class DB {
 
 	public static final String COLUMN_ID = "_id";
 	public static final String COLUMN_IMG = "img";
-	public static final String COLUMN_TXT = "txt";
+	public static final String COLUMN_TIM = "time";
+	public static final String COLUMN_NAM = "name";
+	public static final String COLUMN_TER = "termin";
 
 	private static final String DB_CREATE = 
     "create table " + DB_TABLE + "(" +
 	COLUMN_ID + " integer primary key autoincrement, " +
 	COLUMN_IMG + " integer, " +
-	COLUMN_TXT + " text" +
+	COLUMN_TIM + " text, " +
+	COLUMN_NAM + " text, " +
+	COLUMN_TER + " text " +
     ");";
 
 	private final Context mCtx;
@@ -48,14 +52,15 @@ public class DB {
 	// получить все данные из таблицы DB_TABLE
 	public Cursor getAllData() {
 		return mDB.query(DB_TABLE, null, null, null, null, null, null);
+		
 	}
 
 	// добавить запись в DB_TABLE
 	public void addRec(String time, String name, String determin,  int img) {
 		ContentValues cv = new ContentValues();
-		cv.put(COLUMN_TXT, time);
-		cv.put(COLUMN_TXT, name);
-		cv.put(COLUMN_TXT, determin);
+		cv.put(COLUMN_TIM, time);
+		cv.put(COLUMN_NAM, name);
+		cv.put(COLUMN_TER, determin);
 		cv.put(COLUMN_IMG, img);
 		mDB.insert(DB_TABLE, null, cv);
 	}
@@ -68,9 +73,9 @@ public class DB {
 	// edit record in DB
 	public void editRec(String time, String name, String determin,  int img, long id) {
 		ContentValues cv = new ContentValues();
-		cv.put(COLUMN_TXT, time);
-		cv.put(COLUMN_TXT, name);
-		cv.put(COLUMN_TXT, determin);
+		cv.put(COLUMN_TIM, time);
+		cv.put(COLUMN_NAM, name);
+		cv.put(COLUMN_TER, determin);
 		cv.put(COLUMN_IMG, img);
 		mDB.update(DB_TABLE, cv, COLUMN_ID + " = " + id, null);
 	}
@@ -90,11 +95,12 @@ public class DB {
 			db.execSQL(DB_CREATE);
 
 			ContentValues cv = new ContentValues();
-
-				cv.put(COLUMN_TXT, "add new task");
-				cv.put(COLUMN_IMG, R.drawable.ic_launcher);
-				db.insert(DB_TABLE, null, cv);
-
+			cv.put(COLUMN_IMG, R.drawable.ic_launcher);
+			cv.put(COLUMN_TIM, "0000000000000");
+			cv.put(COLUMN_NAM, "addnewtask");
+			cv.put(COLUMN_TER, "");
+			
+			db.insert(DB_TABLE, null, cv);			
 		}
 
 		@Override
