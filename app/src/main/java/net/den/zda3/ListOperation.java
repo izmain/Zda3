@@ -25,7 +25,7 @@ TODO:
 подправить тему
 использовать прикосновения вместо клика
 нужно ли возвращать интент из редактора
-
+использоваать энумерашин
 --------------------------*/
 
 
@@ -63,8 +63,7 @@ public class ListOperation   extends FragmentActivity implements LoaderCallbacks
                     intnEditor.putExtra("item", position);
 					intnEditor.putExtra("id", id);
 					intnEditor.putExtra("target", "edit");
-					 
-					 startActivityForResult(intnEditor, RESUL_TASK);
+					startActivityForResult(intnEditor, RESUL_TASK);
 			     }
 		       });
 		initz();
@@ -110,7 +109,7 @@ public class ListOperation   extends FragmentActivity implements LoaderCallbacks
 						db.addRec(data.getStringExtra("time"),
 						          data.getStringExtra("name"),
 								  data.getStringExtra("determin"),
-								 R.drawable.ic_launcher);
+								  R.drawable.ic_launcher);
 					}break;
 					case "del":
 						Long idI=data.getLongExtra("id",-1);
@@ -132,12 +131,7 @@ public class ListOperation   extends FragmentActivity implements LoaderCallbacks
 				intnEditor= new Intent(getApplicationContext(),BaseEdit.class);
 				intnEditor.putExtra("target", "add");//ToDO add constantS
 				startActivityForResult(intnEditor, RESUL_TASK);
-			  //todo fix addrec
-				//db.addRec(et.getText().toString(), R.drawable.ic_launcher);
-		      // получаем новый курсор с данными
-
-		      //todo ---- getSupportLoaderManager().getLoader(0).forceLoad();
-		    }break;
+			}break;
 		}
 	}
 
@@ -152,8 +146,7 @@ public class ListOperation   extends FragmentActivity implements LoaderCallbacks
 	public boolean onContextItemSelected(MenuItem item) {
 		if (item.getItemId() == CM_DELETE_ID) {
 			// получаем из пункта контекстного меню данные по пункту списка
-			AdapterContextMenuInfo acmi = (AdapterContextMenuInfo) item
-				.getMenuInfo();
+			AdapterContextMenuInfo acmi = (AdapterContextMenuInfo) item.getMenuInfo();
 			// извлекаем id записи и удаляем соответствующую запись в БД
 			db.delRec(acmi.id);
 			// получаем новый курсор с данными
