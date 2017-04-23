@@ -41,7 +41,9 @@ public class BaseEdit extends Activity implements OnClickListener {
 
 	private void initz() {
         intnInit=getIntent();
-        isTargetEdit= "edit".equals( intnInit.getStringExtra("target"));
+        etNameTask.setText(intnInit.getStringExtra("name"));
+		etTermin.setText(intnInit.getStringExtra("termin"));
+		
 	}
 
 	@Override
@@ -60,7 +62,7 @@ public class BaseEdit extends Activity implements OnClickListener {
 			intnTimePic=new Intent(getApplicationContext(), TimPic.class);
 			startActivityForResult(intnTimePic,RESULT_TIME);			
 		}else{
-			
+		  isTargetEdit="edit".equals(intnInit.getStringExtra("target"));
           switch (vId) {		
             case R.id.bt_add: {
 				intnInit.putExtra("name",etNameTask.getText().toString());

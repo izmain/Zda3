@@ -54,6 +54,22 @@ public class DB {
 		return mDB.query(DB_TABLE, null, null, null, null, null, null);
 		
 	}
+	
+	public String[] getRecData(int iNo){
+		String[] recData= new String[3];
+		String[] columnRec= {COLUMN_NAM, COLUMN_TER, COLUMN_TIM};
+		Cursor c= mDB.query(DB_TABLE,  columnRec, null, null, null, null, null); // clear
+		c.moveToPosition(iNo);
+		int i=c.getColumnIndex(COLUMN_NAM);
+		String s=c.getString(i);
+		recData[0]= s;
+		
+		recData[1]= c.getString(c.getColumnIndex(COLUMN_TER));
+		recData[2]= c.getString(c.getColumnIndex(COLUMN_TIM));
+		return recData;
+		
+
+	}
 
 	// добавить запись в DB_TABLE
 	public void addRec(String time, String name, String determin,  int img) {

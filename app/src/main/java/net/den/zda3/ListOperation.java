@@ -25,7 +25,7 @@ TODO:
 подправить тему
 использовать прикосновения вместо клика
 нужно ли возвращать интент из редактора
-
+закрыть курсоры и дб
 --------------------------*/
 
 
@@ -56,17 +56,7 @@ public class ListOperation   extends FragmentActivity implements LoaderCallbacks
 				public void onClick(View v)
 				{onButtonClick(v);}});  //TODO : its is creasy
 		lvData = (ListView) findViewById(R.id.lvData);
-		lvData.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			    @Override
-			     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				    intnEditor= new Intent(getApplicationContext(),BaseEdit.class);
-                    intnEditor.putExtra("item", position);
-					intnEditor.putExtra("id", id);
-					intnEditor.putExtra("target", "edit");
-					 
-					 startActivityForResult(intnEditor, RESUL_TASK);
-			     }
-		       });
+		
 		initz();
 
 	}
@@ -76,6 +66,20 @@ public class ListOperation   extends FragmentActivity implements LoaderCallbacks
 		et.setText(intntEnter.getStringExtra("time"));
 		db = new DB(this);
 		db.open();
+		lvData.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			    @Override
+				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				    intnEditor= new Intent(getApplicationContext(),BaseEdit.class);
+                    intnEditor.putExtra("item", position);
+					intnEditor.putExtra("id", id);
+					intnEditor.putExtra("target", "edit");
+					String[] editorExtra=db.getRecData(position);
+					intnEditor.putExtra("name", editorExtra[0]);
+					intnEditor.putExtra("termin", editorExtra[1]);
+					intnEditor.putExtra("time", editorExtra[2]); // to do  very bad cod
+					startActivityForResult(intnEditor, RESUL_TASK);
+				}
+		});
 
 		// формируем столбцы сопоставления
 		String[] from = new String[] { DB.COLUMN_IMG, DB.COLUMN_NAM };
