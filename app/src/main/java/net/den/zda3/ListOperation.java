@@ -19,7 +19,6 @@ import android.view.View.*;
 import android.content.*;
 
 /*-------------------
-
 TODO:
 парсинг временной строки
 подправить тему
@@ -37,7 +36,7 @@ public class ListOperation   extends FragmentActivity implements LoaderCallbacks
 
 	private ListView lvData;
 	private Button btAdd;
-	private EditText et;
+	//private EditText et;
 	
 	private Intent intntEnter;
     private Intent intnEditor;
@@ -48,7 +47,7 @@ public class ListOperation   extends FragmentActivity implements LoaderCallbacks
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.listop);
-		et=(EditText) findViewById(R.id.etOfList);
+		//et=(EditText) findViewById(R.id.etOfList);
 
 		btAdd=(Button) findViewById(R.id.bt_add);
 		btAdd.setOnClickListener(new OnClickListener(){
@@ -63,7 +62,7 @@ public class ListOperation   extends FragmentActivity implements LoaderCallbacks
 
 	private void initz() {
 		intntEnter =getIntent();
-		et.setText(intntEnter.getStringExtra("time"));
+		//et.setText(intntEnter.getStringExtra("time"));
 		db = new DB(this);
 		db.open();
 		lvData.setOnItemClickListener(new AdapterView.OnItemClickListener() {
