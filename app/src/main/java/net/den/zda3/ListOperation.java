@@ -55,8 +55,7 @@ public class ListOperation   extends FragmentActivity implements LoaderCallbacks
 				public void onClick(View v)
 				{onButtonClick(v);}});  //TODO : its is creasy
 		lvData = (ListView) findViewById(R.id.lvData);
-		
-		initz();
+initz();
 
 	}
 
@@ -113,7 +112,7 @@ public class ListOperation   extends FragmentActivity implements LoaderCallbacks
 						db.addRec(data.getStringExtra("time"),
 						          data.getStringExtra("name"),
 								  data.getStringExtra("determin"),
-								 R.drawable.ic_launcher);
+								  R.drawable.ic_launcher);
 					}break;
 					case "del":
 						Long idI=data.getLongExtra("id",-1);
@@ -135,12 +134,7 @@ public class ListOperation   extends FragmentActivity implements LoaderCallbacks
 				intnEditor= new Intent(getApplicationContext(),BaseEdit.class);
 				intnEditor.putExtra("target", "add");//ToDO add constantS
 				startActivityForResult(intnEditor, RESUL_TASK);
-			  //todo fix addrec
-				//db.addRec(et.getText().toString(), R.drawable.ic_launcher);
-		      // получаем новый курсор с данными
-
-		      //todo ---- getSupportLoaderManager().getLoader(0).forceLoad();
-		    }break;
+			}break;
 		}
 	}
 
@@ -155,8 +149,7 @@ public class ListOperation   extends FragmentActivity implements LoaderCallbacks
 	public boolean onContextItemSelected(MenuItem item) {
 		if (item.getItemId() == CM_DELETE_ID) {
 			// получаем из пункта контекстного меню данные по пункту списка
-			AdapterContextMenuInfo acmi = (AdapterContextMenuInfo) item
-				.getMenuInfo();
+			AdapterContextMenuInfo acmi = (AdapterContextMenuInfo) item.getMenuInfo();
 			// извлекаем id записи и удаляем соответствующую запись в БД
 			db.delRec(acmi.id);
 			// получаем новый курсор с данными
