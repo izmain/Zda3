@@ -21,10 +21,13 @@ import android.content.*;
 /*-------------------
 TODO:
 парсинг временной строки
+чуждый таймпикер
+полный выход
 подправить тему
 использовать прикосновения вместо клика
 нужно ли возвращать интент из редактора
 закрыть курсоры и дб
+интернироуать, буилдировать и константировать
 --------------------------*/
 
 
@@ -55,7 +58,7 @@ public class ListOperation   extends FragmentActivity implements LoaderCallbacks
 				public void onClick(View v)
 				{onButtonClick(v);}});  //TODO : its is creasy
 		lvData = (ListView) findViewById(R.id.lvData);
-initz();
+        initz();
 
 	}
 
@@ -97,6 +100,7 @@ initz();
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
+		if (resultCode==RESULT_OK){
 		switch (requestCode) {
 			case RESUL_TASK:
 				String targ=data.getStringExtra("action");
@@ -121,7 +125,7 @@ initz();
 				}
 		getSupportLoaderManager().getLoader(0).forceLoad();
 		  // super.onActivityResult(requestCode, resultCode, data);
-		}
+		}}
 		
 	//-------------------------------
 	//         НАЖАТИЯ

@@ -41,6 +41,7 @@ public class BaseEdit extends Activity implements OnClickListener {
 
 	private void initz() {
         intnInit=getIntent();
+		intnInit.putExtra("action","");
         etNameTask.setText(intnInit.getStringExtra("name"));
 		etTermin.setText(intnInit.getStringExtra("termin"));
 		
@@ -50,9 +51,16 @@ public class BaseEdit extends Activity implements OnClickListener {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) {
 			case RESULT_TIME:
-				tvData.setText(data.getStringExtra("time"));
+				String mTime=data.getStringExtra("time");
+				char[]  mChArr =mTime.toCharArray();
+				
+				tvData.setText(String.format("%5$s%6$s[%3$s%4$s]20%1$s%2$s г",
+											 mChArr[0],mChArr[1],mChArr[2],
+											 mChArr[3],mChArr[4],mChArr[5]));
+				tvMinHor.setText(String.format("%1$s%2$s ч %3$s%4$s мин ", 
+				mChArr[6],mChArr[7],mChArr[8],mChArr[9]));
 		}
-		super.onActivityResult(requestCode, resultCode, data);
+		//super.onActivityResult(requestCode, resultCode, data);
 	}
 
     @Override

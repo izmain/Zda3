@@ -5,12 +5,6 @@
 	android:layout_height="fill_parent"
 	android:orientation="vertical">
 
-	<EditText
-		android:layout_height="wrap_content"
-		android:layout_width="match_parent"
-		android:ems="10"
-		android:id="@+id/etOfList"/>
-
 	<ListView
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
@@ -28,24 +22,6 @@
 			android:text="add"
 			android:layout_weight="0"
 			android:id="@+id/bt_add"/>
-
-		<Button
-			android:layout_height="wrap_content"
-			android:layout_width="wrap_content"
-			android:text="del"
-			android:id="@+id/bt_del"/>
-
-		<Button
-			android:layout_height="wrap_content"
-			android:layout_width="wrap_content"
-			android:text="change"
-			android:id="@+id/bt_cheng"/>
-
-		<Button
-			android:layout_height="wrap_content"
-			android:layout_width="wrap_content"
-			android:text="save"
-			android:id="@+id/bt_save"/>
 
 	</LinearLayout>
 
