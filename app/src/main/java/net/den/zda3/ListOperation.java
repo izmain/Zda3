@@ -1,22 +1,23 @@
 package net.den.zda3;
 
 
-import android.database.Cursor;
-import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.LoaderManager.LoaderCallbacks;
+import android.content.*;
+import android.database.*;
+import android.os.*;
+import android.support.v4.app.*;
+import android.support.v4.app.LoaderManager.*;
+import android.support.v4.content.*;
+import android.support.v4.widget.*;
+import android.view.*;
+import android.view.ContextMenu.*;
+import android.view.View.*;
+import android.widget.*;
+import android.widget.AdapterView.*;
+
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView.AdapterContextMenuInfo;
-import android.widget.ListView;
-import android.widget.*;
-import android.view.View.*;
-import android.content.*;
+import android.view.View.OnClickListener;
 
 /*-------------------
 TODO:
@@ -45,6 +46,7 @@ public class ListOperation   extends FragmentActivity implements LoaderCallbacks
     private Intent intnEditor;
 	DB db;
 	SimpleCursorAdapter scAdapter;
+	PlayerReceiver resivUnsleep;
 
 	/** onCreate **/
 	public void onCreate(Bundle savedInstanceState) {
@@ -63,6 +65,7 @@ public class ListOperation   extends FragmentActivity implements LoaderCallbacks
 	}
 
 	private void initz() {
+		
 		intntEnter =getIntent();
 		//et.setText(intntEnter.getStringExtra("time"));
 		db = new DB(this);
@@ -183,6 +186,7 @@ public class ListOperation   extends FragmentActivity implements LoaderCallbacks
 	public void onLoaderReset(Loader<Cursor> loader) {
 	}
 
+	// class MyCursorLoader
 	static class MyCursorLoader extends CursorLoader {
 
 		DB db;
@@ -198,6 +202,27 @@ public class ListOperation   extends FragmentActivity implements LoaderCallbacks
 			
 			return cursor;
 		}
-	}	
+	}
+
+	// class PlayerReceiver
+	public class PlayerReceiver extends BroadcastReceiver
+	{ 
+		private static final String TYPE = "type"; 
+		private static final int ID_ACTION_PLAY = 0; 
+		private static final int ID_ACTION_STOP = 1; 
+
+		@Override 
+		public void onReceive(Context context, Intent intent) 
+		{ 
+			int type = intent.getIntExtra(TYPE, ID_ACTION_STOP); 
+			switch (type) 
+			{
+				case ID_ACTION_PLAY: 
+					// выполнение полученного намерения 
+					context.startService(new Intent(context, ListOperation.class)); 
+					break;
+			} 
+		}
+	}
 }
 
