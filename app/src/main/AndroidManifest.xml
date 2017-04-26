@@ -9,8 +9,12 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
-        <resiver android:name=".PlayerReceiver">
-            <intent-filter>
+        <resiver
+			android:name=".PlayerReceiver"
+            android:enabled="true" 
+			android:exported="false">
+			
+			<intent-filter>
                 <action android:name="android.intent.action.ACTION_USER_PRESENT" />
             </intent-filter>
         </resiver>

@@ -72,15 +72,13 @@ public class TimPic extends Activity
 		// TODO: Implement this method
 	}
 
-	private void stopHuyServ()
-	{
-		// TODO: Implement this method
+	private void stopHuyServ(){
+		stopService(new Intent(this, UnlockStartService.class));
 	}
 
-	private void startHuyService()
-		{                           
-		// TODO: Implement this method
-		}                              
+	private void startHuyService(){                           
+			startService(new Intent(this, UnlockStartService.class));
+	}                              
 	
 	public void sendTime(){
 		intnList.putExtra("time",getDataToFields());
