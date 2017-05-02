@@ -6,14 +6,10 @@ import android.database.*;
 import android.os.*;
 import android.support.v4.app.*;
 import android.support.v4.app.LoaderManager.*;
-import android.support.v4.content.*;
-import android.support.v4.widget.*;
 import android.view.*;
 import android.view.ContextMenu.*;
-import android.view.View.*;
 import android.widget.*;
 import android.widget.AdapterView.*;
-
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
