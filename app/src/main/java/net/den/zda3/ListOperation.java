@@ -174,7 +174,7 @@ public class ListOperation   extends FragmentActivity implements LoaderCallbacks
 	}
 
 
-	
+
 
 
 

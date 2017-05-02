@@ -51,8 +51,36 @@ public class TimPic extends Activity
 	//---------------------------
 	//     ОБРАБОТЧИКИ НАЖАТИЙ
 	//---------------------------
+	public void onclButt(View v){
+		switch (v.getId()){
+			case R.id.bt_get_time:
+				getTime();break;
+			case R.id.bt_set_time:
+				sendTime();break;
+			
+			case R.id.bt_start_serv:
+				startHuyService();break;
+			case R.id.bt_stop_serv:
+				stopHuyServ();break;
+			case R.id.bt_check_serv:
+				checkHuyServ();break;
+		}
+	}
+
+	private void checkHuyServ()
+	{
+		// TODO: Implement this method
+	}
+
+	private void stopHuyServ(){
+		stopService(new Intent(this, UnlockStartService.class));
+	}
+
+	private void startHuyService(){                           
+			startService(new Intent(this, UnlockStartService.class));
+	}                              
 	
-	public void sendTime(View v){
+	public void sendTime(){
 		intnList.putExtra("time",getDataToFields());
 		setResult(RESULT_OK, intnList);
 		Toast.makeText(this,"time",Toast.LENGTH_SHORT).show();
@@ -63,7 +91,7 @@ public class TimPic extends Activity
 	{}
 	
 	//нажатие на текущее время
-	public void onclGetTime(View v){
+	public void getTime(){
 		DecimalFormat df= new DecimalFormat("00");
 		editYear.setText(df.format(getTimeOfFormat("yy")));
 		editMonth.setText(df.format(getTimeOfFormat("MM")));
