@@ -174,9 +174,16 @@ public class ListOperation   extends FragmentActivity implements LoaderCallbacks
 		menu.add("setting");
 		return super.onCreateOptionsMenu(menu);
 	}
+	public boolean onOptionsItemSelected(MenuItem item) {
+       switch (item.getTitle().toString()){
+		   case "setting":
+		   	Intent intnSetng = new Intent(getApplicationContext(),Settin.class);
+			startActivity(intnSetng);
+	   }
 
-
-
+        Toast.makeText(this, item.getTitle(), Toast.LENGTH_SHORT).show();
+         return super.onOptionsItemSelected(item);
+	}
 
 
 
