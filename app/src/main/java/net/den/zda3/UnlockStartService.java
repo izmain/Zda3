@@ -3,6 +3,7 @@ package net.den.zda3;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+import android.content.*;
 
 public class UnlockStartService extends Service {
     public UnlockStartService() {
@@ -20,7 +21,10 @@ public class UnlockStartService extends Service {
 
 	private void someTask()
 	{
-		// TODO: Implement this method
+		IntentFilter filtrResiv=new IntentFilter (
+		"android.intent.action.ACTION_USER_PRESENT");
+		PlayerReciver unlockResiv= new PlayerReciver();
+		registerReceiver(unlockResiv,filtrResiv);
 	}
 
 	public void onDestroy() {

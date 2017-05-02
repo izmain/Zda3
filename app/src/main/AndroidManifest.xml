@@ -10,7 +10,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <resiver
-			android:name=".PlayerReceiver"
+			android:name=".PlayerReciver"
             android:enabled="true" 
 			android:exported="false">
 			
@@ -21,7 +21,12 @@
 
         <activity
             android:name=".TimPic"
-            android:label="@string/app_name"></activity>
+            >
+			</activity>
+		<activity
+            android:name=".Settin"
+            android:label="@string/app_name">
+		</activity>
         <activity android:name=".ListOperation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

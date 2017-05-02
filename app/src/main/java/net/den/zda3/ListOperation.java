@@ -46,7 +46,7 @@ public class ListOperation   extends FragmentActivity implements LoaderCallbacks
     private Intent intnEditor;
 	DB db;
 	SimpleCursorAdapter scAdapter;
-	PlayerReceiver resivUnsleep;
+	PlayerReciver resivUnsleep;
 
 	/** onCreate **/
 	public void onCreate(Bundle savedInstanceState) {
@@ -166,6 +166,16 @@ public class ListOperation   extends FragmentActivity implements LoaderCallbacks
 		return super.onContextItemSelected(item);
 	}
 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
+		// TODO: Implement this method
+		return super.onCreateOptionsMenu(menu);
+	}
+	
+	@Override
+	
+
 
 
 	//-------------------------------
@@ -203,8 +213,5 @@ public class ListOperation   extends FragmentActivity implements LoaderCallbacks
 			return cursor;
 		}
 	}
-
-	// class PlayerReceiver
-	
 }
 
