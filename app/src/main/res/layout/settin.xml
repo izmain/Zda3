@@ -12,17 +12,19 @@
 		android:orientation="horizontal">
 
 		<CheckBox
-			android:layout_height="wrap_content"
+			android:id="@+id/chbx_serv"
 			android:layout_width="wrap_content"
-			android:hint="service"
+			android:layout_height="wrap_content"
 			android:layout_marginRight="30dp"
-			android:id="@+id/chbx_serv"/>
+			android:hint="service"
+			android:onClick="onCheckboxClicked" />
 
 		<CheckBox
-			android:layout_height="wrap_content"
+			android:id="@+id/chbx_check"
 			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
 			android:hint="checkin"
-			android:id="@+id/chbx_check"/>
+			android:onClick="onCheckboxClicked" />
 
 	</LinearLayout>
 

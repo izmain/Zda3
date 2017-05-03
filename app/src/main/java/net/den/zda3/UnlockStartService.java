@@ -6,11 +6,27 @@ import android.os.IBinder;
 import android.content.*;
 
 public class UnlockStartService extends Service {
-    public UnlockStartService() {
-    }
+    public UnlockStartService() {}
+
+	BroadcastReceiver br;
+
 	public void onCreate() {
 		super.onCreate();
-		
+		br = new BroadcastReceiver() {
+
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				Intent intn =new Intent(getApplicationContext(), ListOperation.class);
+				intn.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				startActivity(intn);
+
+			}
+		};
+		IntentFilter filtrResiv=new IntentFilter (
+				"android.intent.action.USER_PRESENT");
+		filtrResiv.addCategory("android.intent.category.DEFAULT");
+
+		registerReceiver(br, filtrResiv);
 	}
 	
 	public int onStartCommand(Intent intent, int flags, int startId) {
@@ -21,8 +37,7 @@ public class UnlockStartService extends Service {
 
 	private void someTask()
 	{
-		IntentFilter filtrResiv=new IntentFilter (
-		"android.intent.action.ACTION_USER_PRESENT");
+
 
 
 	}

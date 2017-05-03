@@ -1,8 +1,10 @@
 package net.den.zda3;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.CheckBox;
 
 public class Settin extends Activity {
@@ -31,8 +33,20 @@ public class Settin extends Activity {
     private void saveSettin() {
         preferSettin = getPreferences(MODE_PRIVATE);
         SharedPreferences.Editor ed = preferSettin.edit();
-        ed.putBoolean("serv",chBoxServ.isChecked()).commit();
+        ed.putBoolean("serv",chBoxServ.isChecked()).apply();
         ed.putBoolean("check",chBoxChek.isChecked()).commit();
+    }
+
+    public void onCheckboxClicked(View view) {
+
+        boolean checked = ((CheckBox) view).isChecked();
+
+        switch (view.getId()) {
+            case R.id.chbx_serv:
+                if (checked){
+                    startService(new Intent(this, UnlockStartService.class));
+                }else{}break;
+        }
     }
 
     @Override
