@@ -5,7 +5,6 @@
 	android:layout_height="fill_parent"
 	android:orientation="vertical"
 	android:id="@+id/chbx_serv">
-	
 
 	<LinearLayout
 		android:layout_height="wrap_content"
@@ -16,12 +15,14 @@
 			android:layout_height="wrap_content"
 			android:layout_width="wrap_content"
 			android:hint="service"
-			android:layout_marginRight="30dp"/>
+			android:layout_marginRight="30dp"
+			android:id="@+id/chbx_serv"/>
 
 		<CheckBox
 			android:layout_height="wrap_content"
 			android:layout_width="wrap_content"
-			android:hint="checkin"/>
+			android:hint="checkin"
+			android:id="@+id/chbx_check"/>
 
 	</LinearLayout>
 
