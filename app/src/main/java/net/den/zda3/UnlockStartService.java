@@ -2,9 +2,10 @@ package net.den.zda3;
 
 import android.app.*;
 import android.content.*;
-import android.icu.text.*;
 import android.os.*;
 import android.widget.*;
+
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class UnlockStartService extends Service {
@@ -22,22 +23,7 @@ public class UnlockStartService extends Service {
 				
 
 			}
-			// проверка на время
-			private int checkTime()
-			{
-				DB db = new DB(getApplicationContext());
-				db.open();
-				String[] s=new String[]{DB.COLUMN_TIM};
-				for (String i:s){
-					if (Integer.parseInt(i)<getCurTime()){
-						db.close();
-						return Integer.parseInt(i);
-					}
-				}
-				db.close();
-				// TODO: Implement this method
-				return -1;
-			}
+
 			
 		};
 		IntentFilter filtrResiv=new IntentFilter (
@@ -45,6 +31,23 @@ public class UnlockStartService extends Service {
 		filtrResiv.addCategory("android.intent.category.DEFAULT");
 
 		registerReceiver(br, filtrResiv);
+	}
+
+	// проверка на время
+	private int checkTime()
+	{
+		DB db = new DB(getApplicationContext());
+		db.open();
+		String[] s=new String[]{DB.COLUMN_TIM};
+		for (String i:s){
+			if (Integer.parseInt(i)<getCurTime()){
+				db.close();
+				return Integer.parseInt(i);
+			}
+		}
+		db.close();
+		// TODO: Implement this method
+		return -1;
 	}
 	
 	public int onStartCommand(Intent intent, int flags, int startId) {

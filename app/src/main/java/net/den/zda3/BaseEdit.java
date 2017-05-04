@@ -11,7 +11,7 @@ import android.view.*;
 public class BaseEdit extends Activity implements OnClickListener {
 	
 	private static final int RESULT_TIME = 1;
-	String timePicStr ;
+	String timePicStr="0000000000" ;
 	Boolean isTargetEdit;
 	
 	TextView tvInfo,tvData,tvMinHor;
@@ -51,8 +51,8 @@ public class BaseEdit extends Activity implements OnClickListener {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) {
 			case RESULT_TIME:
-				String mTime=data.getStringExtra("time");
-				char[]  mChArr =mTime.toCharArray();
+				timePicStr=data.getStringExtra("time");
+				char[]  mChArr =timePicStr.toCharArray();
 				
 				tvData.setText(String.format("%5$s%6$s[%3$s%4$s]20%1$s%2$s г",
 											 mChArr[0],mChArr[1],mChArr[2],
@@ -73,6 +73,7 @@ public class BaseEdit extends Activity implements OnClickListener {
 		  isTargetEdit="edit".equals(intnInit.getStringExtra("target"));
           switch (vId) {		
             case R.id.bt_add: {
+				intnInit.putExtra("time",timePicStr);
 				intnInit.putExtra("name",etNameTask.getText().toString());
 				intnInit.putExtra("determin",etTermin.getText().toString());
 				if (isTargetEdit){
