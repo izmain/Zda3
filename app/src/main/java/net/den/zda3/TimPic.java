@@ -77,7 +77,8 @@ public class TimPic extends Activity
 	}
 
 	private void startHuyService(){                           
-			startService(new Intent(this, UnlockStartService.class));
+			startService(new Intent(this, UnlockStartService.class).
+			putExtra("action","start"));
 	}                              
 	
 	public void sendTime(){

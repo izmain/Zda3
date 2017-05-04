@@ -168,13 +168,19 @@ public class ListOperation   extends FragmentActivity implements LoaderCallbacks
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
 		menu.add("setting");
+		menu.add("check time");
 		return super.onCreateOptionsMenu(menu);
 	}
 	public boolean onOptionsItemSelected(MenuItem item) {
        switch (item.getTitle().toString()){
 		   case "setting":
 		   	Intent intnSetng = new Intent(getApplicationContext(),Settin.class);
-			startActivity(intnSetng);
+			startActivity(intnSetng);break;
+		   case "check time":
+			   Intent intnCheckTime = new Intent(getApplicationContext(),UnlockStartService.class);
+			   intnCheckTime.putExtra("action", "check time");
+			   startService(intnCheckTime);
+			   
 	   }
 
         Toast.makeText(this, item.getTitle(), Toast.LENGTH_SHORT).show();
