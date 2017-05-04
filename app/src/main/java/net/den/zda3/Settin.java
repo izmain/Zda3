@@ -45,7 +45,9 @@ public class Settin extends Activity {
             case R.id.chbx_serv:
                 if (checked){
                     startService(new Intent(this, UnlockStartService.class));
-                }else{}break;
+                }else{
+					stopService(new Intent(this, UnlockStartService.class));
+				}break;
         }
     }
 
