@@ -44,7 +44,9 @@ public class Settin extends Activity {
         switch (view.getId()) {
             case R.id.chbx_serv:
                 if (checked){
-                    startService(new Intent(this, UnlockStartService.class));
+                    Intent intnCheckTime = new Intent(getApplicationContext(),UnlockStartService.class);
+					intnCheckTime.putExtra("action", "check time");
+					startService(intnCheckTime);
                 }else{
 					stopService(new Intent(this, UnlockStartService.class));
 				}break;

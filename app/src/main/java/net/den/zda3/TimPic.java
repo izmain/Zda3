@@ -58,28 +58,11 @@ public class TimPic extends Activity
 			case R.id.bt_set_time:
 				sendTime();break;
 			
-			case R.id.bt_start_serv:
-				startHuyService();break;
-			case R.id.bt_stop_serv:
-				stopHuyServ();break;
-			case R.id.bt_check_serv:
-				checkHuyServ();break;
+			
 		}
 	}
 
-	private void checkHuyServ()
-	{
-		// TODO: Implement this method
-	}
-
-	private void stopHuyServ(){
-		stopService(new Intent(this, UnlockStartService.class));
-	}
-
-	private void startHuyService(){                           
-			startService(new Intent(this, UnlockStartService.class).
-			putExtra("action","start"));
-	}                              
+	                           
 	
 	public void sendTime(){
 		intnList.putExtra("time",getDataToFields());
@@ -87,9 +70,7 @@ public class TimPic extends Activity
 		Toast.makeText(this,"time",Toast.LENGTH_SHORT).show();
 		finish();
 	}
-	//нажатие получение ячейки времени
-	public void clcReed(View v)
-	{}
+	
 	
 	//нажатие на текущее время
 	public void getTime(){
