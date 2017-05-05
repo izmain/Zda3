@@ -55,6 +55,18 @@ public class DB {
 		
 	}
 	
+	public String[] getTimes(){
+		String[] s=new String[]{DB.COLUMN_TIM};
+		Cursor c= mDB.query (DB_TABLE, s, null, null, null, null, null); // clear
+		c.moveToFirst();
+		String[] times=new String[c.getCount()] ;
+		for (int i=0;i<c.getCount();i++){
+			times[i]=c.getString(0);
+			c.moveToNext();
+		}
+		return times;
+	}
+	
 	public String[] getRecData(int iNo){
 		String[] recData= new String[3];
 		String[] columnRec= {COLUMN_NAM, COLUMN_TER, COLUMN_TIM};

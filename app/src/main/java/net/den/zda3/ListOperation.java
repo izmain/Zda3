@@ -163,7 +163,8 @@ public class ListOperation   extends FragmentActivity implements LoaderCallbacks
 		}
 		return super.onContextItemSelected(item);
 	}
-
+	
+	// меню
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
@@ -171,6 +172,7 @@ public class ListOperation   extends FragmentActivity implements LoaderCallbacks
 		menu.add("check time");
 		return super.onCreateOptionsMenu(menu);
 	}
+	
 	public boolean onOptionsItemSelected(MenuItem item) {
        switch (item.getTitle().toString()){
 		   case "setting":
@@ -180,8 +182,7 @@ public class ListOperation   extends FragmentActivity implements LoaderCallbacks
 			   Intent intnCheckTime = new Intent(getApplicationContext(),UnlockStartService.class);
 			   intnCheckTime.putExtra("action", "check time");
 			   startService(intnCheckTime);
-			   
-	   }
+		 }
 
         Toast.makeText(this, item.getTitle(), Toast.LENGTH_SHORT).show();
          return super.onOptionsItemSelected(item);

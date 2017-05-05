@@ -20,14 +20,16 @@ public class UnlockStartService extends Service {
 
 			@Override
 			public void onReceive(Context context, Intent intent) {
-				
+				int itemCheckTime = checkTime();
+				if(itemCheckTime!=MINUS_1){
+					Toast.makeText(getApplicationContext(),"просрочено "+itemCheckTime,Toast.LENGTH_SHORT).show();
+					
 
 			}
 
 			
 		};
-		IntentFilter filtrResiv=new IntentFilter (
-				"android.intent.action.USER_PRESENT");
+		IntentFilter filtrResiv=new IntentFilter ("android.intent.action.USER_PRESENT");
 		filtrResiv.addCategory("android.intent.category.DEFAULT");
 
 		registerReceiver(br, filtrResiv);
@@ -38,7 +40,7 @@ public class UnlockStartService extends Service {
 	{
 		DB db = new DB(getApplicationContext());
 		db.open();
-		String[] s=new String[]{DB.COLUMN_TIM};
+		String[] s=db.getTimes();
 		for (String i:s){
 			if (Integer.parseInt(i)<getCurTime()){
 				db.close();
@@ -63,7 +65,7 @@ public class UnlockStartService extends Service {
 				//to do устроить сортировку и облегчить цикл
 				int itemCheckTime = checkTime();
 				if(itemCheckTime!=MINUS_1){
-					Toast.makeText(getApplicationContext(),itemCheckTime,Toast.LENGTH_SHORT).show();
+					Toast.makeText(this,"просрочено "+itemCheckTime,Toast.LENGTH_SHORT).show();
 
 				}
 		}
