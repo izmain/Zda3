@@ -4,4 +4,8 @@
 	</style>
     <style name="AppThemeAppComp" parent="@android:style/Theme.Holo">
     </style>
+	<style name="MyActivityDialogTheme" parent="Base.Theme.AppCompat.Light.Dialog">
+		<item name="android:windowNoTitle">true</item>
+		<item name="windowActionBar">false</item>
+	</style>
 </resources>

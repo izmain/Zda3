@@ -27,7 +27,7 @@ TODO:
 интернироуать, буилдировать и константировать
 предложить удалять поврежденную базу
 сделать службу неубивашкой
-
+ ThemeOverlay.Material.Dark
 
 --------------------------*/
 
@@ -172,6 +172,7 @@ public class ListOperation   extends FragmentActivity implements LoaderCallbacks
 	{
 		menu.add("setting");
 		menu.add("check time");
+		menu.add("show dial");
 		return super.onCreateOptionsMenu(menu);
 	}
 	
@@ -183,11 +184,13 @@ public class ListOperation   extends FragmentActivity implements LoaderCallbacks
 		   case "check time":
 			   Intent intnCheckTime = new Intent(getApplicationContext(),UnlockStartService.class);
 			   intnCheckTime.putExtra("action", "check time");
-			   startService(intnCheckTime);
+			   startService(intnCheckTime);break;
+		   case "show dial":
+			   showDial();
+			   
 		 }
 
-        Toast.makeText(this, item.getTitle(), Toast.LENGTH_SHORT).show();
-         return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item);
 	}
 
 
@@ -195,7 +198,13 @@ public class ListOperation   extends FragmentActivity implements LoaderCallbacks
 	//-------------------------------
 	//         DEBAG
 	//--------------------------------
-
+	
+	public void showDial(){
+		Dialog1 dlg1=new Dialog1();
+		dlg1.show(getFragmentManager(), "dlg1");
+		
+	}
+	
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle bndl) {
 		return new MyCursorLoader(this, db);
