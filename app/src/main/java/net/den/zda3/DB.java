@@ -18,6 +18,7 @@ public class DB {
 	public static final String COLUMN_TIM = "time";
 	public static final String COLUMN_NAM = "name";
 	public static final String COLUMN_TER = "termin";
+	public static final String COLUMN_STAT = "status";
 
 	private static final String DB_CREATE = 
     "create table " + DB_TABLE + "(" +
@@ -25,7 +26,8 @@ public class DB {
 	COLUMN_IMG + " integer, " +
 	COLUMN_TIM + " text, " +
 	COLUMN_NAM + " text, " +
-	COLUMN_TER + " text " +
+	COLUMN_TER + " text, " +
+	COLUMN_STAT + " text " +
     ");";
 
 	private final Context mCtx;
@@ -36,6 +38,31 @@ public class DB {
 
 	public DB(Context ctx) {
 		mCtx = ctx;
+	}
+
+	
+	public String checkStat(String nowTime)
+	{
+		String nextCheckTime = "9999999999";
+		String[] s=new String[]{DB.COLUMN_TIM,DB.COLUMN_STAT,DB.COLUMN_ID};
+		Cursor c=mDB.query(DB_TABLE,s,null,null,null,null,null);
+		c.moveToFirst();
+		for (int i=0;i<c.getCount();i++){
+			String oldStat = c.getString(1);
+			String timeSheet = c.getString(0);
+			if ("befor".equals(oldStat)) {
+				if (nowTime.compareTo( timeSheet) >0 ){
+					ContentValues cv = new ContentValues();
+					cv.put(COLUMN_STAT, "after");
+					mDB.update(DB_TABLE, cv, COLUMN_ID + " = " + c.getString(i), null); 
+				}else if (nextCheckTime.compareTo(timeSheet)>0){
+					nextCheckTime=timeSheet;
+				}
+			}	
+			c.moveToNext();
+		}
+		
+		return nextCheckTime;
 	}
 
 	// открыть подключение
@@ -74,8 +101,7 @@ public class DB {
 		c.moveToPosition(iNo);
 		int i=c.getColumnIndex(COLUMN_NAM);
 		String s=c.getString(i);
-		recData[0]= s;
-		
+		recData[0]= s;		
 		recData[1]= c.getString(c.getColumnIndex(COLUMN_TER));
 		recData[2]= c.getString(c.getColumnIndex(COLUMN_TIM));
 		return recData;
@@ -84,9 +110,10 @@ public class DB {
 	}
 
 	// добавить запись в DB_TABLE
-	public void addRec(String time, String name, String determin,  int img) {
+	public void addRec(String time,String statys, String name, String determin,  int img) {
 		ContentValues cv = new ContentValues();
 		cv.put(COLUMN_TIM, time);
+		cv.put(COLUMN_STAT, statys);
 		cv.put(COLUMN_NAM, name);
 		cv.put(COLUMN_TER, determin);
 		cv.put(COLUMN_IMG, img);
@@ -97,11 +124,12 @@ public class DB {
 	public void delRec(long id) {
 		mDB.delete(DB_TABLE, COLUMN_ID + " = " + id, null);
 	}
-
+//to do: litely edit and add , use function return cv
 	// edit record in DB
-	public void editRec(String time, String name, String determin,  int img, long id) {
+	public void editRec(String time,String status, String name, String determin,  int img, long id) {
 		ContentValues cv = new ContentValues();
 		cv.put(COLUMN_TIM, time);
+		cv.put(COLUMN_STAT, status);
 		cv.put(COLUMN_NAM, name);
 		cv.put(COLUMN_TER, determin);
 		cv.put(COLUMN_IMG, img);
@@ -127,6 +155,7 @@ public class DB {
 			cv.put(COLUMN_TIM, "0000000000000");
 			cv.put(COLUMN_NAM, "addnewtask");
 			cv.put(COLUMN_TER, "");
+			cv.put(COLUMN_STAT, "after");
 			
 			db.insert(DB_TABLE, null, cv);			
 		}

@@ -1,17 +1,18 @@
 package net.den.zda3;
 
 
-import android.app.*;
 import android.content.*;
 import android.os.*;
-import android.widget.*;
-import android.view.View.*;
+import android.support.v7.app.*;
 import android.view.*;
+import android.view.View.*;
+import android.widget.*;
 
-public class BaseEdit extends Activity implements OnClickListener {
+public class BaseEdit extends AppCompatActivity implements OnClickListener {
 	
 	private static final int RESULT_TIME = 1;
-	String timePicStr="0000000000" ;
+	String timePicStr="0000000000";
+	String status = "after";
 	Boolean isTargetEdit;
 	
 	TextView tvInfo,tvData,tvMinHor;
@@ -52,15 +53,16 @@ public class BaseEdit extends Activity implements OnClickListener {
 		switch (requestCode) {
 			case RESULT_TIME:
 				timePicStr=data.getStringExtra("time");
+				status = data.getStringExtra("status");
 				char[]  mChArr =timePicStr.toCharArray();
 				
 				tvData.setText(String.format("%5$s%6$s[%3$s%4$s]20%1$s%2$s г",
 											 mChArr[0],mChArr[1],mChArr[2],
-											 mChArr[3],mChArr[4],mChArr[5]));
+										 mChArr[3],mChArr[4],mChArr[5]));
 				tvMinHor.setText(String.format("%1$s%2$s ч %3$s%4$s мин ", 
 				mChArr[6],mChArr[7],mChArr[8],mChArr[9]));
 		}
-		//super.onActivityResult(requestCode, resultCode, data);
+		
 	}
 
     @Override
@@ -76,7 +78,8 @@ public class BaseEdit extends Activity implements OnClickListener {
 				intnInit.putExtra("time",timePicStr);
 				intnInit.putExtra("name",etNameTask.getText().toString());
 				intnInit.putExtra("determin",etTermin.getText().toString());
-				if (isTargetEdit){
+					intnInit.putExtra("status",status);
+					if (isTargetEdit){
 					intnInit.putExtra("action","edit");
 				}else intnInit.putExtra("action","add");
 				

@@ -4,12 +4,16 @@ package net.den.zda3;
 import android.content.*;
 import android.database.*;
 import android.os.*;
-import android.support.v4.app.*;
 import android.support.v4.app.LoaderManager.*;
+import android.support.v4.content.*;
+import android.support.v4.widget.*;
+import android.support.v7.app.*;
 import android.view.*;
 import android.view.ContextMenu.*;
+import android.view.View.*;
 import android.widget.*;
 import android.widget.AdapterView.*;
+
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SimpleCursorAdapter;
@@ -28,18 +32,19 @@ TODO:
 предложить удалять поврежденную базу
 сделать службу неубивашкой
  ThemeOverlay.Material.Dark
+ уточнить импорты
 
 --------------------------*/
 
 
-public class ListOperation   extends FragmentActivity implements LoaderCallbacks<Cursor>
+public class ListOperation   extends AppCompatActivity implements LoaderCallbacks<Cursor>
 	
 {
 	private static final int CM_DELETE_ID = 1;
 	private static final int RESUL_TASK = 2;
 
 	private ListView lvData;
-	private Button btAdd;
+	private Button btAdd,btMenu;
 	//private EditText et;
 	
 	private Intent intntEnter;
@@ -53,12 +58,9 @@ public class ListOperation   extends FragmentActivity implements LoaderCallbacks
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.listop);
 		//et=(EditText) findViewById(R.id.etOfList);
-
+		btMenu=(Button) findViewById(R.id.bt_menu);
 		btAdd=(Button) findViewById(R.id.bt_add);
-		btAdd.setOnClickListener(new OnClickListener(){
-				@Override
-				public void onClick(View v)
-				{onButtonClick(v);}});  //TODO : its is creasy
+		
 		lvData = (ListView) findViewById(R.id.lvData);
         initz();
 
@@ -67,7 +69,7 @@ public class ListOperation   extends FragmentActivity implements LoaderCallbacks
 	private void initz() {
 		
 		intntEnter =getIntent();
-		//et.setText(intntEnter.getStringExtra("time"));
+		
 		db = new DB(this);
 		db.open();
 		lvData.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -110,6 +112,7 @@ public class ListOperation   extends FragmentActivity implements LoaderCallbacks
 				switch (targ){
 					case "edit":{
 						db.editRec(data.getStringExtra("time"),
+									data.getStringExtra("status"),
 									data.getStringExtra("name"),
 									data.getStringExtra("determin"),
 									R.drawable.ic_launcher,
@@ -117,6 +120,7 @@ public class ListOperation   extends FragmentActivity implements LoaderCallbacks
 					}break;
 					case "add":{
 						db.addRec(data.getStringExtra("time"),
+								  data.getStringExtra("status"),
 						          data.getStringExtra("name"),
 								  data.getStringExtra("determin"),
 								  R.drawable.ic_launcher);
@@ -127,7 +131,6 @@ public class ListOperation   extends FragmentActivity implements LoaderCallbacks
 					}break;	
 				}
 		getSupportLoaderManager().getLoader(0).forceLoad();
-		  // super.onActivityResult(requestCode, resultCode, data);
 		}}
 		
 	//-------------------------------
@@ -141,6 +144,9 @@ public class ListOperation   extends FragmentActivity implements LoaderCallbacks
 				intnEditor= new Intent(getApplicationContext(),BaseEdit.class);
 				intnEditor.putExtra("target", "add");//ToDO add constantS
 				startActivityForResult(intnEditor, RESUL_TASK);
+			}break;
+			case R.id.bt_menu:{
+				openOptionsMenu();
 			}break;
 		}
 	}
@@ -172,8 +178,10 @@ public class ListOperation   extends FragmentActivity implements LoaderCallbacks
 	{
 		menu.add("setting");
 		menu.add("check time");
-		menu.add("show dial");
-		return super.onCreateOptionsMenu(menu);
+		menu.add("check stat");
+		menu.add("show dialAct");
+		return true;
+		//return super.onCreateOptionsMenu(menu);
 	}
 	
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -182,11 +190,17 @@ public class ListOperation   extends FragmentActivity implements LoaderCallbacks
 		   	Intent intnSetng = new Intent(getApplicationContext(),Settin.class);
 			startActivity(intnSetng);break;
 		   case "check time":
+			   // to do: delete debug code in unl.service in startServ
 			   Intent intnCheckTime = new Intent(getApplicationContext(),UnlockStartService.class);
 			   intnCheckTime.putExtra("action", "check time");
 			   startService(intnCheckTime);break;
-		   case "show dial":
-			   showDial();
+		   case "check stat":
+			   Intent intnAllTime = new Intent(getApplicationContext(),UnlockStartService.class);
+			   intnAllTime.putExtra("action", "check stat");
+			   startService(intnAllTime);break;
+		   case "show dialAct":
+			   Intent intnDial=new Intent(getApplicationContext(),Dial.class);
+			   startActivity(intnDial);
 			   
 		 }
 
@@ -199,11 +213,6 @@ public class ListOperation   extends FragmentActivity implements LoaderCallbacks
 	//         DEBAG
 	//--------------------------------
 	
-	public void showDial(){
-		Dialog1 dlg1=new Dialog1();
-		dlg1.show(getFragmentManager(), "dlg1");
-		
-	}
 	
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle bndl) {

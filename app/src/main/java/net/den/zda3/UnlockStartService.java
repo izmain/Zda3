@@ -13,16 +13,23 @@ public class UnlockStartService extends Service {
 
 	BroadcastReceiver br;
 	int MINUS_1=-1;
-
+	String nextCheckTime="9999999999";
+	
+	// onCreate
 	public void onCreate() {
 		super.onCreate();
+		// ресивер
 		br = new BroadcastReceiver() {
 
 			@Override
 			public void onReceive(Context context, Intent intent) {
-				int itemCheckTime = checkTime();
-				if(itemCheckTime!=MINUS_1)
-					Toast.makeText(getApplicationContext(),"просрочено "+itemCheckTime,Toast.LENGTH_SHORT).show();
+				if (getCurTime().compareTo(nextCheckTime)>0){
+				
+				  Intent intnDial=new Intent(getApplicationContext(),Dial.class);
+						intnDial.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+								.putExtra("message",nextCheckTime);
+				  		startActivity(intnDial);
+				}
 				
 			}
 
@@ -30,7 +37,6 @@ public class UnlockStartService extends Service {
 	    };
 		IntentFilter filtrResiv=new IntentFilter ("android.intent.action.USER_PRESENT");
 		filtrResiv.addCategory("android.intent.category.DEFAULT");
-
 		registerReceiver(br, filtrResiv);
 	}
 
@@ -41,16 +47,27 @@ public class UnlockStartService extends Service {
 		db.open();
 		String[] s=db.getTimes();
 		for (String i:s){
-			if (Integer.parseInt(i)<getCurTime()){
+			if (i.compareTo(getCurTime())<0){
 				db.close();
 				return Integer.parseInt(i);
 			}
 		}
 		db.close();
-		// TODO: Implement this method
 		return -1;
 	}
 	
+	
+
+	//получение текушего времени
+	private String getCurTime()
+	{
+		Date sisData = new Date();		
+		SimpleDateFormat sdf =new SimpleDateFormat("yyMMddHHmm");
+		return sdf.format(sisData);
+	}
+	
+
+	// onStart
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		String actionOfIntn=intent.getStringExtra("action");
 		//to do go to getaction
@@ -65,27 +82,30 @@ public class UnlockStartService extends Service {
 				int itemCheckTime = checkTime();
 				if(itemCheckTime!=MINUS_1){
 					Toast.makeText(this,"просрочено "+itemCheckTime,Toast.LENGTH_SHORT).show();
-
 				}
+				break;
+			case "check next":
+				if (nextCheckTime.compareTo(getCurTime())<0){
+					Toast.makeText(getApplicationContext(),"next ",Toast.LENGTH_SHORT).show();
+				}
+				break;
+
+			case "check stat":	
+				DB db = new DB(getApplicationContext());
+				db.open();
+				nextCheckTime = db.checkStat(getCurTime());
+				db.close();
+				Toast.makeText(getApplicationContext(),
+							   "next "+ nextCheckTime,
+							   Toast.LENGTH_SHORT).show();
+				break;
+
 		}
-		someTask();
+
 		return super.onStartCommand(intent, flags, startId);
 	}
-	
 
-	//получение текушего времени
-	private int getCurTime()
-	{
-		Date sisData = new Date();		
-		SimpleDateFormat sdf =new SimpleDateFormat("yyMMddHHmm");
-		return Integer.parseInt(sdf.format(sisData));
-	}
-
-	private void someTask()
-	{
-		
-	}
-
+	//::::::::::::::::::::::::::::::::
 	public void onDestroy() {
 		super.onDestroy();
 		

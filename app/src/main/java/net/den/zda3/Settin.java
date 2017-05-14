@@ -1,13 +1,12 @@
 package net.den.zda3;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.CheckBox;
+import android.content.*;
+import android.os.*;
+import android.support.v7.app.*;
+import android.view.*;
+import android.widget.*;
 
-public class Settin extends Activity {
+public class Settin extends AppCompatActivity {
 
 
     CheckBox  chBoxServ, chBoxChek;
@@ -26,8 +25,9 @@ public class Settin extends Activity {
     private void loadSettin() {
         preferSettin = getPreferences(MODE_PRIVATE);
         chBoxServ.setChecked(preferSettin.getBoolean("serv", false));
-        chBoxChek.setChecked(preferSettin.getBoolean("check", false));    }
-
+        chBoxChek.setChecked(preferSettin.getBoolean("check", false));
+		checkCheck();
+		}
 
 
     private void saveSettin() {
@@ -38,20 +38,31 @@ public class Settin extends Activity {
     }
 
     public void onCheckboxClicked(View view) {
-
-        boolean checked = ((CheckBox) view).isChecked();
+		
+        
 
         switch (view.getId()) {
+			
             case R.id.chbx_serv:
-                if (checked){
-                    Intent intnCheckTime = new Intent(getApplicationContext(),UnlockStartService.class);
-					intnCheckTime.putExtra("action", "check time");
-					startService(intnCheckTime);
-                }else{
-					stopService(new Intent(this, UnlockStartService.class));
-				}break;
+				checkCheck();
+				
+                break;
         }
     }
+	
+	// проверка галочек
+	private void checkCheck()
+	{
+		
+		boolean checked = chBoxServ.isChecked();
+		if (checked){
+			Intent intnCheckTime = new Intent(getApplicationContext(),UnlockStartService.class);
+			intnCheckTime.putExtra("action", "check time");
+			startService(intnCheckTime);
+		}else{
+			stopService(new Intent(this, UnlockStartService.class));
+			}
+	}
 
     @Override
     protected void onPause() {
