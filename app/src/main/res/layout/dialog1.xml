@@ -18,12 +18,18 @@
 			android:src="@android:drawable/ic_delete"
 			app:srcCompat="@android:drawable/ic_dialog_alert" />
 
-		<TextView
-			android:layout_height="wrap_content"
-			android:layout_width="wrap_content"
-			android:layout_weight="1.0"/>
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0" />
 
-		<ImageView
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0" />
+
+        <ImageView
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_weight="0"
@@ -72,7 +78,12 @@
 			android:src="@android:drawable/ic_delete"
 			app:srcCompat="@android:drawable/ic_media_play" />
 
-		<TextView
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="01" />
+
+        <TextView
 			android:layout_height="wrap_content"
 			android:layout_width="wrap_content"
 			android:layout_weight="1.0"/>
