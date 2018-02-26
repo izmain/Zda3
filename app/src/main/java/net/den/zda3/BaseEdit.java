@@ -8,6 +8,7 @@ import android.view.*;
 import android.view.View.*;
 import android.widget.*;
 
+// редактирование задачи
 public class BaseEdit extends AppCompatActivity implements OnClickListener {
 	
 	private static final int RESULT_TIME = 1;

@@ -21,7 +21,6 @@ import android.view.View.OnClickListener;
 
 /*-------------------
 TODO:
-парсинг временной строки
 чуждый таймпикер
 полный выход
 подправить тему
@@ -36,7 +35,7 @@ TODO:
 
 --------------------------*/
 
-
+// главное окно , список событий
 public class ListOperation   extends AppCompatActivity implements LoaderCallbacks<Cursor>
 	
 {

@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 
+// класс переопределяет методы базы данных событий
 public class DB {
 
 	private static final String DB_NAME = "mydb";

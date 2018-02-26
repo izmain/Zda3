@@ -5,6 +5,7 @@ import android.os.*;
 import android.widget.*;
 import android.content.*;
 
+// диалог наступившего события
 public class Dial extends Activity
 {
 	

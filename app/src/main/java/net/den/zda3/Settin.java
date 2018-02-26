@@ -6,6 +6,7 @@ import android.support.v7.app.*;
 import android.view.*;
 import android.widget.*;
 
+// настройки приложения
 public class Settin extends AppCompatActivity {
 
 

@@ -8,6 +8,7 @@ import android.widget.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+// класс описывает действия приложения при разблокировке экрана
 public class UnlockStartService extends Service {
     public UnlockStartService() {}
 

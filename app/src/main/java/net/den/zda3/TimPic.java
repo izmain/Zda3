@@ -9,6 +9,7 @@ import android.widget.*;
 import java.text.*;
 import java.util.*;
 
+// окно ввода времени
 public class TimPic extends AppCompatActivity
 
 	
